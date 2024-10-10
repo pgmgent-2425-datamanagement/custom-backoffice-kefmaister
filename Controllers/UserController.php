@@ -26,7 +26,12 @@ class UserController extends BaseController {
 
     public static function update () {
 
-        $users = new User;
+        // Check CSRF token
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die('Invalid CSRF token');
+        }
+
+        $user = new User;
 
         $id = $_POST['id'];
         $data = [
@@ -34,9 +39,23 @@ class UserController extends BaseController {
             'email' => $_POST['email']
         ];
 
-        $users->update($id, $data);
+        // Validate input data
+        if (empty($data['name']) || empty($data['email'])) {
+            die('Name and email are required');
+        }
 
-        header('Location: /users');
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            die('Invalid email format');
+        }
+
+        // Attempt to update user and handle potential errors
+        try {
+            $user->update($id, $data);
+        } catch (\Exception $e) {
+            die('Error updating user: ' . $e->getMessage());
+        }
+
+        self::redirect('/users');
     }
 
 
