@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-class User extends BaseModel{
+class Playlist extends BaseModel{
 
-    protected $table = 'users';
+    protected $table = 'playlists';
     protected $pk = 'id';
 
     public function __construct() {
@@ -19,27 +19,25 @@ class User extends BaseModel{
         return parent::find($id);
     }
 
-    public function create ( array $data ) {
-        return parent::create($data);
-    }
+    protected function where($column, $value){
 
-    public function update ( int $id, array $data ) {
-        return parent::update($id, $data);
+
+        return parent::where($column, $value);
+
     }
 
     public function save(){
-        $sql = "UPDATE users SET name = :name, email = :email WHERE id = :id";
+        $sql = "UPDATE playlists SET name = :name WHERE id = :id";
 
         $pdo_statement = $this->db->prepare($sql);
         $pdo_statement->execute([
             ':name' => $this->name,
-            ':email' => $this->email,
             ':id' => $this->id
         ]);
     }
 
     public function delete(){
-        $sql = "DELETE FROM users WHERE id = :id";
+        $sql = "DELETE FROM playlists WHERE id = :id";
 
         $pdo_statement = $this->db->prepare($sql);
         $pdo_statement->execute([

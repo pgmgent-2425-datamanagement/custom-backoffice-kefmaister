@@ -14,11 +14,11 @@
             <?php foreach ($users as $user): ?>
             <tr>
                 <td><?= $user->id ?></td>
-                <td><?= $user->username ?></td>
+                <td><a href="find/id/<?= $user->id ?>"><?= $user->name ?></a></td>
                 <td><?= $user->email ?></td>
                 <td>
                         <a href="users/edit/<?= $user->id?>" class="button edit-button">Edit</a>
-                        <a href="delete.php" class="button delete-button">Delete</a>
+                        <a href="users/delete/<?= $user->id?>" class="button delete-button" onclick="return confirm('Are you sure you want to delete <?= $user->name ?>?');">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
