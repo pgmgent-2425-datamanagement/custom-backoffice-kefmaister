@@ -5,7 +5,7 @@ use App\Models\Playlist;
 
 class UserController extends BaseController {
 
-    public static function index () {
+    public static function index() {
 
         $users = User::all();
 
@@ -17,8 +17,8 @@ class UserController extends BaseController {
 
     }
 
-    public static function edit($id){
-        $user = User::find($id);
+    public static function edit($id) {
+        $user = User::with('playlists')->find($id);
 
         if(isset($_POST['name'])){
             $user->name = $_POST['name'];
@@ -36,27 +36,42 @@ class UserController extends BaseController {
 
     }
 
-    public static function delete($id){
+    public static function delete($id) {
         $user = User::find($id);
         $user->delete();
 
         header('Location: /users');
     }
 
-    public static function find($id){
+    public static function find($id) {
         $user = User::find($id);
 
         if(!$user){
-            die('User not found');
+            throw new \Exception('User not found');
         }
-
-        $playlists = Playlist::where('user_id', $id)->get();
 
         self::loadView('/find', [
             'title' => 'Find User',
             'user' => $user,
-            'playlists' => $playlists
 
+        ]);
+    }
+
+    public static function getPlaylistsByUser($userId) {
+        $user = User::find($userId);
+    
+        if (!$user) {
+            throw new \Exception('User not found');
+        }
+    
+        // Fetch all playlists associated with this user
+        $playlistModel = new Playlist();
+        $playlists = $playlistModel->where('user_id', $userId);
+    
+        self::loadView('/find', [
+            'title' => 'User and Playlists',
+            'user' => $user,
+            'playlists' => $playlists
         ]);
     }
 

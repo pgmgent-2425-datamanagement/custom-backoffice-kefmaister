@@ -3,6 +3,7 @@
 <p>Username: <?= $user->name ?></p>
 <p>Email: <?= $user->email ?></p>
 
+
 <p>Playlist list:</p>
 
 <?php if (isset($playlists) && count($playlists) > 0): ?>

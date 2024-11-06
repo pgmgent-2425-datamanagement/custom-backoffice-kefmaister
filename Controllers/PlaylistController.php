@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Models\Playlist;
+use App\Models\User;
 
 class PlaylistController extends BaseController {
 
@@ -13,6 +14,8 @@ class PlaylistController extends BaseController {
             'playlists' => $playlists
         ]);
 
-    }
+    }    
+    
+
 
 }

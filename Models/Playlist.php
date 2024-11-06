@@ -19,12 +19,13 @@ class Playlist extends BaseModel{
         return parent::find($id);
     }
 
-    protected function where($column, $value){
-
-
-        return parent::where($column, $value);
-
+    public function where($column, $value) {
+        $sql = "SELECT * FROM {$this->table} WHERE {$column} = :value";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':value' => $value]);
+        return $stmt->fetchAll(\PDO::FETCH_OBJ); // Fetch all results as objects
     }
+    
 
     public function save(){
         $sql = "UPDATE playlists SET name = :name WHERE id = :id";

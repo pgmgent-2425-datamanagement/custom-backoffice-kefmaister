@@ -14,7 +14,7 @@
             <?php foreach ($users as $user): ?>
             <tr>
                 <td><?= $user->id ?></td>
-                <td><a href="find/id/<?= $user->id ?>"><?= $user->name ?></a></td>
+                <td><a href="user/id/<?= $user->id ?>"><?= $user->name ?></a></td>
                 <td><?= $user->email ?></td>
                 <td>
                         <a href="users/edit/<?= $user->id?>" class="button edit-button">Edit</a>
