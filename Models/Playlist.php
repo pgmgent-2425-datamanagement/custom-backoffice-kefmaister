@@ -14,6 +14,9 @@ class Playlist extends BaseModel{
     protected function all () {
         return parent::all();
     }
+    public function getAllPlaylists() {
+        return parent::all();
+    }
 
     protected function find ( int $id ) {
         return parent::find($id);

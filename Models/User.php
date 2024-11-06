@@ -15,6 +15,10 @@ class User extends BaseModel{
         return parent::all();
     }
 
+    public function getAllUsers() {
+        return parent::all();
+    }
+
     protected function find ( int $id ) {
         return parent::find($id);
     }
