@@ -15,6 +15,7 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile-picture</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
@@ -25,6 +26,8 @@
                     <?php foreach ($users as $user): ?>
                         <tr class="hover:bg-gray-100 transition duration-150">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= htmlspecialchars($user->id) ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <img src="/images/<?= htmlspecialchars($user->image) ?>" alt="<?= htmlspecialchars($user->firstname . ' ' . $user->lastname) ?>" class="h-10 w-10 rounded-full">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
                                 <a href="/user/id/<?= htmlspecialchars($user->id) ?>" class="hover:underline">
                                     <?= htmlspecialchars($user->firstname . ' ' . $user->lastname) ?>

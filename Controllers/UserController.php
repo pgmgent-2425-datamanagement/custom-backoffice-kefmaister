@@ -15,20 +15,36 @@ class UserController extends BaseController {
             'users' => $users
         ]);
     }
+
     
 
     public static function create() {
+
         $countryModel = new Country();
         $countries = $countryModel->all(); // Fetch all countries
 
+       
+
+        //move uploaded file to images folder
+
+
         if (isset($_POST['firstname'])) {
+            $name = $_FILES['image']['name'];
+            $from = $_FILES['image']['tmp_name'];
+    
+            $to_folder = BASE_DIR . '/public/images/';
+    
+            $uuid = uniqid() . '_' . $name;
+    
+            move_uploaded_file($from, $to_folder . $uuid);
             $userModel = new User();
             $data = [
                 'firstname'    => $_POST['firstname'],
                 'lastname'     => $_POST['lastname'],
                 'email'        => $_POST['email'],
                 'password'     => password_hash($_POST['password'], PASSWORD_BCRYPT),
-                'countries_id' => $_POST['country']
+                'countries_id' => $_POST['country'],
+                'image'        => $uuid
             ];
 
             if ($userModel->create($data)) {
@@ -53,6 +69,8 @@ class UserController extends BaseController {
 
     public static function edit($id) {
         $user = User::find($id);
+
+        
     
         if (!$user) {
             throw new \Exception('User not found');
@@ -67,10 +85,20 @@ class UserController extends BaseController {
     $countries = $countryModel->all(); // Fetch all countries
     
         if (isset($_POST['firstname'])) {
+            $name = $_FILES['image']['name'];
+        $from = $_FILES['image']['tmp_name'];
+
+        $to_folder = BASE_DIR . '/public/images/';
+
+        $uuid = uniqid() . '_' . $name;
+
+        move_uploaded_file($from, $to_folder . $uuid);
+
             $user->firstname = $_POST['firstname'];
             $user->lastname = $_POST['lastname'];
             $user->email = $_POST['email'];
-            $user->countries_id = $_POST['country']; 
+            $user->countries_id = $_POST['country'];
+            $user->image = $uuid; 
             $user->save();
             header('Location: /users');
         }

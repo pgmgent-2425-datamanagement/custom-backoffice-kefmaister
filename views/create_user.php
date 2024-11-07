@@ -1,5 +1,10 @@
 <h1 class="text-2xl font-bold mb-4">Create New User</h1>
-<form method="POST" action="/users/create" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+<form method="POST" enctype="multipart/form-data" action="/users/create" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div class="mb-4">
+        <lable for="image" class="block text-gray-700 font-semibold mb-2">Profile Picture:</label>
+        <input type="file" id="image" name="image" required accept="image/*"
+               class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+    </div>
     <div class="mb-4">
         <label for="firstname" class="block text-gray-700 font-semibold mb-2">Name:</label>
         <input type="text" id="firstname" name="firstname" required 

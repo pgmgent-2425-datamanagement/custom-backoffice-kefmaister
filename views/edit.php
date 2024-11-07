@@ -1,7 +1,12 @@
     <h1>Edit User Information</h1>
-    <form method="POST" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    <form method="POST" enctype="multipart/form-data" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
         <input type="hidden" name="id" value="<?= $user->id ?>">
     <!-- Form Fields with Tailwind classes -->
+     <div class="mb-4">
+        <lable for="image" class="block text-gray-700 font-semibold mb-2">Profile Picture:</label>
+        <input type="file" id="image" name="image" accept="image/*"
+               class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+    </div>
     <div class="mb-4">
         <label for="firstname" class="block text-gray-700 font-semibold mb-2">Username:</label>
         <input type="text" id="firstname" name="firstname" value="<?= htmlspecialchars($user->firstname) ?>" required 

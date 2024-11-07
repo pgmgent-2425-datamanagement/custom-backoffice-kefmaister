@@ -28,7 +28,7 @@ class User extends BaseModel{
     }
 
     public function save() {
-        $sql = "UPDATE users SET firstname = :firstname, lastname = :lastname, email = :email, countries_id = :countries_id WHERE id = :id";
+        $sql = "UPDATE users SET firstname = :firstname, lastname = :lastname, email = :email, countries_id = :countries_id, image = :image WHERE id = :id";
         
         $pdo_statement = $this->db->prepare($sql);
         $pdo_statement->execute([
@@ -36,7 +36,8 @@ class User extends BaseModel{
             ':lastname' => $this->lastname,
             ':email' => $this->email,
             ':countries_id' => $this->countries_id,
-            ':id' => $this->id
+            ':id' => $this->id,
+            ':image' => $this->image
         ]);
     }
     
