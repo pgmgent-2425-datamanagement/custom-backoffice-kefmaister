@@ -86,19 +86,23 @@ class UserController extends BaseController {
     
         if (isset($_POST['firstname'])) {
             $name = $_FILES['image']['name'];
-        $from = $_FILES['image']['tmp_name'];
+            if($name){
 
-        $to_folder = BASE_DIR . '/public/images/';
+                $from = $_FILES['image']['tmp_name'];
 
-        $uuid = uniqid() . '_' . $name;
+                $to_folder = BASE_DIR . '/public/images/';
 
-        move_uploaded_file($from, $to_folder . $uuid);
+                $uuid = uniqid() . '_' . $name;
 
+                move_uploaded_file($from, $to_folder . $uuid);
+
+                $user->image = $uuid;
+
+            }          
             $user->firstname = $_POST['firstname'];
             $user->lastname = $_POST['lastname'];
             $user->email = $_POST['email'];
             $user->countries_id = $_POST['country'];
-            $user->image = $uuid; 
             $user->save();
             header('Location: /users');
         }
