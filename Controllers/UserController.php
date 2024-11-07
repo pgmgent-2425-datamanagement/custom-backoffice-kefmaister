@@ -2,58 +2,87 @@
 namespace App\Controllers;
 use App\Models\User;
 use App\Models\Playlist;
+use App\Models\Country;
 
 class UserController extends BaseController {
 
     public static function index() {
-        error_log('UserController@index');
-        $users = User::all();
-
+        $userModel = new User();
+        $users = $userModel->getUsersWithCountries(); // Custom method to fetch users with country info
+    
         self::loadView('/users', [
             'title' => 'Users',
             'users' => $users
         ]);
-
-
     }
+    
 
     public static function create() {
-        if(isset($_POST['firstname'])){
-            $user = new User;
-            $user->firstname = $_POST['firstname'];
-            $user->lastname = $_POST['lastname'];
-            $user->email = $_POST['email'];
-            $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            $user->countries_id = $_POST['country'];
-            $user->save();
-            header('Location: /users');
+        $countryModel = new Country();
+        $countries = $countryModel->all(); // Fetch all countries
+
+        if (isset($_POST['firstname'])) {
+            $userModel = new User();
+            $data = [
+                'firstname'    => $_POST['firstname'],
+                'lastname'     => $_POST['lastname'],
+                'email'        => $_POST['email'],
+                'password'     => password_hash($_POST['password'], PASSWORD_BCRYPT),
+                'countries_id' => $_POST['country']
+            ];
+
+            if ($userModel->create($data)) {
+                header('Location: /users');
+                exit();
+            } else {
+                // Handle creation failure
+                self::loadView('/create_user', [
+                    'title' => 'Create New User',
+                    'countries' => $countries,
+                    'error' => 'Failed to create user. Please try again.'
+                ]);
+            }
         }
 
         self::loadView('/create_user', [
-            'title' => 'Create New User'
+            'title' => 'Create New User',
+            'countries' => $countries
         ]);
     }
-
+    
 
     public static function edit($id) {
-        $user = User::with('playlists')->find($id);
+        $user = User::find($id);
+    
+        if (!$user) {
+            throw new \Exception('User not found');
+        }
+    
+        // Fetch playlists separately if needed
+        $playlistModel = new Playlist();
+        $playlists = $playlistModel->where('user_id', $id);
 
-        if(isset($_POST['firstname'])){
+            // Fetch all countries
+    $countryModel = new Country(); // Assuming you have a Country model
+    $countries = $countryModel->all(); // Fetch all countries
+    
+        if (isset($_POST['firstname'])) {
             $user->firstname = $_POST['firstname'];
             $user->lastname = $_POST['lastname'];
             $user->email = $_POST['email'];
+            $user->countries_id = $_POST['country']; 
             $user->save();
             header('Location: /users');
         }
-
-
+    
         self::loadView('/edit', [
             'title' => 'Edit User',
-            'user' => $user
+            'user' => $user,
+            'playlists' => $playlists, // Pass playlists if necessary
+            'countries' => $countries
         ]);
-
-
     }
+    
 
     public static function delete($id) {
         $user = User::find($id);

@@ -1,4 +1,4 @@
-<h1>information about <?= $user->name ?></h1>
+<h1>information about <?= $user->firstname, " ", $user->lastname ?></h1>
 
 <p>firstname: <?= $user->firstname ?></p>
 <p>Email: <?= $user->email ?></p>

@@ -102,6 +102,22 @@ class BaseModel {
     private function getClassName($classname) {
         return (substr($classname, strrpos($classname, '\\') + 1));
     }
+
+    public function create(array $data) {
+        $columns = '';
+        $values = '';
+        foreach($data as $column => $value) {
+            $columns .= '`' . $column . '`,';
+            $values .= ':' . $column . ',';
+        }
+        $columns = rtrim($columns, ',');
+        $values = rtrim($values, ',');
+        $sql = 'INSERT INTO `' . $this->table . '` (' . $columns . ') VALUES (' . $values . ')';
+        $pdo_statement = $this->db->prepare($sql);
+        return $pdo_statement->execute($data);
+    }
+    
     
 
 }
+

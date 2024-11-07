@@ -27,17 +27,19 @@ class User extends BaseModel{
         return parent::update($id, $data);
     }
 
-    public function save(){
-        $sql = "UPDATE users SET name = :name, email = :email WHERE id = :id";
-
+    public function save() {
+        $sql = "UPDATE users SET firstname = :firstname, lastname = :lastname, email = :email, countries_id = :countries_id WHERE id = :id";
+        
         $pdo_statement = $this->db->prepare($sql);
         $pdo_statement->execute([
-            ':name' => $this->name,
+            ':firstname' => $this->firstname,
+            ':lastname' => $this->lastname,
             ':email' => $this->email,
+            ':countries_id' => $this->countries_id,
             ':id' => $this->id
         ]);
     }
-
+    
     public function delete(){
         $sql = "DELETE FROM users WHERE id = :id";
 
@@ -46,4 +48,16 @@ class User extends BaseModel{
             ':id' => $this->id
         ]);
     }
+    public function getUsersWithCountries() {
+        $sql = "
+            SELECT u.*, c.name AS country_name
+            FROM users u
+            LEFT JOIN countries c ON u.countries_id = c.id
+        ";
+    
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_OBJ); // Fetch as objects for consistency
+    }
 }
+

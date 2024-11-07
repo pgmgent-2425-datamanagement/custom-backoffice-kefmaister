@@ -21,14 +21,21 @@
     </div>
 
     <div class="mb-4">
-        <label for="Country" class="block text-gray-700 font-semibold mb-2">Country:</label>
-        <select name="country" id="country" required 
-               class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+    <label for="country" class="block text-gray-700 font-semibold mb-2">Country:</label>
+    <select name="country" id="country" required 
+            class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <?php if (!empty($countries)): ?>
             <?php foreach ($countries as $country): ?>
-                <option value="<?= $country->id ?>" <?= $user->countries_id == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
+                <option value="<?= htmlspecialchars($country->id) ?>" <?= $user->countries_id == $country->id ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($country->name) ?>
+                </option>
             <?php endforeach; ?>
-        </select>
-    </div>
+        <?php else: ?>
+            <option value="">No countries available</option>
+        <?php endif; ?>
+    </select>
+</div>
+
     <div class="mt-6">
         <input type="submit" value="Save" 
                class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition duration-200">

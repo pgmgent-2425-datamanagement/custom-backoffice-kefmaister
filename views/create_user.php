@@ -22,6 +22,17 @@
                class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
     </div>
 
+    <div class="mb-4">
+        <label for="country" class="block text-gray-700 font-semibold mb-2">Country:</label>
+        <select name="country" id="country" required 
+                class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option value="">Select a country</option>
+            <?php foreach ($countries as $country): ?>
+                <option value="<?= htmlspecialchars($country->id) ?>"><?= htmlspecialchars($country->name) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
     <div class="mt-6">
         <input type="submit" value="Create User" 
                class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-200">

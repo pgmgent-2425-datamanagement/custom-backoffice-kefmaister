@@ -11,30 +11,20 @@ class Country extends BaseModel{
         parent::__construct();
     }
 
-    protected function all () {
+    public static function all () {
         return parent::all();
-    }
-
-    public function countCountriesWithUsers() {
-        $sql = "SELECT COUNT(DISTINCT countries.id) AS count 
-                FROM countries 
-                INNER JOIN users ON countries.id = users.countries_id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetch(\PDO::FETCH_OBJ);
-        return $result->count;
     }
 
     public function getUserCountsByCountry(){
         $sql= "
-            SELECT c.name AS country, COUNT(u.id) AS count 
-            FROM countries c 
-            LEFT JOIN users u ON c.id = u.countries_id 
-            GROUP BY c.name
-            HAVING count > 0
-            ORDER BY count DESC
-        ";
-
+        SELECT c.name AS country, COUNT(u.id) AS count 
+        FROM countries c 
+        LEFT JOIN users u ON c.id = u.countries_id 
+        GROUP BY c.name
+        HAVING count > 0
+        ORDER BY count DESC
+        LIMIT 5
+    ";
         $stmt= $this->db->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(\PDO::FETCH_OBJ);
