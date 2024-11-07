@@ -6,7 +6,7 @@ use App\Models\Playlist;
 class UserController extends BaseController {
 
     public static function index() {
-
+        error_log('UserController@index');
         $users = User::all();
 
         self::loadView('/users', [
@@ -17,11 +17,30 @@ class UserController extends BaseController {
 
     }
 
+    public static function create() {
+        if(isset($_POST['firstname'])){
+            $user = new User;
+            $user->firstname = $_POST['firstname'];
+            $user->lastname = $_POST['lastname'];
+            $user->email = $_POST['email'];
+            $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $user->countries_id = $_POST['country'];
+            $user->save();
+            header('Location: /users');
+        }
+
+        self::loadView('/create_user', [
+            'title' => 'Create New User'
+        ]);
+    }
+
+
     public static function edit($id) {
         $user = User::with('playlists')->find($id);
 
-        if(isset($_POST['name'])){
-            $user->name = $_POST['name'];
+        if(isset($_POST['firstname'])){
+            $user->firstname = $_POST['firstname'];
+            $user->lastname = $_POST['lastname'];
             $user->email = $_POST['email'];
             $user->save();
             header('Location: /users');
@@ -47,7 +66,12 @@ class UserController extends BaseController {
         $user = User::find($id);
 
         if(!$user){
-            throw new \Exception('User not found');
+            // Redirect to a 404 page or display an error message
+            self::loadView('/error/404', [
+                'title' => 'User Not Found',
+                'message' => 'The user you are looking for does not exist.'
+            ]);
+            return;
         }
 
         self::loadView('/find', [
@@ -74,40 +98,5 @@ class UserController extends BaseController {
             'playlists' => $playlists
         ]);
     }
-
-    // public static function update () {
-
-    //     // Check CSRF token
-    //     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    //         die('Invalid CSRF token');
-    //     }
-
-    //     $user = new User;
-
-    //     $id = $_POST['id'];
-    //     $data = [
-    //         'name' => $_POST['name'],
-    //         'email' => $_POST['email']
-    //     ];
-
-    //     // Validate input data
-    //     if (empty($data['name']) || empty($data['email'])) {
-    //         die('Name and email are required');
-    //     }
-
-    //     if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-    //         die('Invalid email format');
-    //     }
-
-    //     // Attempt to update user and handle potential errors
-    //     try {
-    //         $user->update($id, $data);
-    //     } catch (\Exception $e) {
-    //         die('Error updating user: ' . $e->getMessage());
-    //     }
-
-    //     self::redirect('/users');
-    // }
-
 
 }

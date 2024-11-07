@@ -11,11 +11,7 @@ class User extends BaseModel{
         parent::__construct();
     }
 
-    protected function all () {
-        return parent::all();
-    }
-
-    public function getAllUsers() {
+    public static function all () {
         return parent::all();
     }
 

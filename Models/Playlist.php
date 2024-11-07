@@ -11,10 +11,7 @@ class Playlist extends BaseModel{
         parent::__construct();
     }
 
-    protected function all () {
-        return parent::all();
-    }
-    public function getAllPlaylists() {
+    public function all () {
         return parent::all();
     }
 

@@ -1,19 +1,32 @@
 <?php
-
 namespace App\Controllers;
+
+use App\Models\Country;
+use App\Models\Playlist;
+
 
 class HomeController extends BaseController {
 
     public static function index() {
-        $userModel = new \App\Models\User();
-        $userCount = count($userModel->getAllUsers());
+        $countryModel = new Country();
 
-        $playlistModel = new \App\Models\Playlist();
-        $playlistCount = count($playlistModel->getAllPlaylists());
+        $countryUserData = $countryModel->getUserCountsByCountry();
+
+        $countries = [];
+        $userCounts = [];
+        foreach($countryUserData as $data){
+            $countries[] = $data->country;
+            $userCounts[] = $data->count;
+        }
+
+
+        $playlistModel = new Playlist();
+        $playlistCount = count($playlistModel->all());
 
         self::loadView('/home', [
             'title' => 'Home Dashboard',
-            'userCount' => $userCount,
+            'countries' => $countries,
+            'userCounts' => $userCounts,
             'playlistCount' => $playlistCount,
         ]);
     }
