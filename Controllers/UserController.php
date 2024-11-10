@@ -107,7 +107,7 @@ class UserController extends BaseController {
             header('Location: /users');
         }
     
-        self::loadView('/edit', [
+        self::loadView('/edit_user', [
             'title' => 'Edit User',
             'user' => $user,
             'playlists' => $playlists, // Pass playlists if necessary

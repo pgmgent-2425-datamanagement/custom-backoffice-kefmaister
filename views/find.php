@@ -1,6 +1,6 @@
-<h1>information about <?= $user->firstname, " ", $user->lastname ?></h1>
+<h1>Information about <?= $user->firstname, " ", $user->lastname ?></h1>
 
-<p>firstname: <?= $user->firstname ?></p>
+<p>Firstname: <?= $user->firstname ?></p>
 <p>Email: <?= $user->email ?></p>
 
 
