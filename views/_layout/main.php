@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/main.css?v=<?php if( $_ENV['DEV_MODE'] == "true" ) { echo time(); }; ?>">
     <link href="/css/output.css?v=<?php if( $_ENV['DEV_MODE'] == "true" ) { echo time(); }; ?>" rel="stylesheet">
 </head>
-<body class="">
+<body class="vw-100 w-screen">
     <header>
         <div class="brand">BrandName</div>
 
@@ -19,8 +19,6 @@
         <a href="/files" class="text-white px-3 py-2 rounded-md text-sm font-medium">Files</a>
     </nav>
     </header>
-
-
 
     <main>
         <?= $content; ?>

@@ -27,6 +27,22 @@
         <textarea id="description" name="description" required 
                   class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
     </div>
+    <!-- Genre Dropdown -->
+<div class="mb-4">
+    <label for="genre_id" class="block text-gray-700 font-semibold mb-2">Genre:</label>
+    <select name="genre_id" id="genre_id" required 
+            class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <?php if (!empty($genres)): ?>
+            <?php foreach ($genres as $genre): ?>
+                <option value="<?= htmlspecialchars($genre->id) ?>">
+                    <?= htmlspecialchars($genre->name) ?>
+                </option>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <option value="">No genres available</option>
+        <?php endif; ?>
+    </select>
+</div>
 
     <!-- Video Duration -->
     <div class="mb-4">

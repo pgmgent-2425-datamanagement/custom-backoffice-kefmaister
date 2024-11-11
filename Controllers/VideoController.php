@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Video;
 use App\Models\Playlist;
 use App\Models\User;
+use App\Models\Genres;
 
 class VideoController extends BaseController {
 
@@ -21,7 +22,9 @@ class VideoController extends BaseController {
 
     public static function create() {
         $userModel = new User();
+        $genreModel = new Genres();
         $users = $userModel->all(); // Fetch all users for dropdown if needed
+        $genres = $genreModel->getGenres(); // Fetch all genres for dropdown if needed
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_FILES['video']['name'];
@@ -44,7 +47,8 @@ class VideoController extends BaseController {
                 'upload_date' => date('Y-m-d H:i:s'),
                 'thumbnail'   => $thumbnailUuid,
                 'user_id'     => $_POST['user_id'],
-                'file_path'   => $uuid
+                'file_path'   => $uuid,
+                'genre_id'    => $_POST['genre_id']
             ];
 
             if ($videoModel->create($data)) {
@@ -61,7 +65,8 @@ class VideoController extends BaseController {
 
         self::loadView('/create_video', [
             'title' => 'Create New Video',
-            'users' => $users
+            'users' => $users,
+            'genres' => $genres
         ]);
     }
 
