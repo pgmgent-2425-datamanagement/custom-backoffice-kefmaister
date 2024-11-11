@@ -11,12 +11,19 @@ class Video extends BaseModel {
         parent::__construct();
     }
 
-    public static function all() {
+    protected function all() {
         return parent::all();
     }
 
     protected function find(int $id) {
         return parent::find($id);
+    }
+
+    public function getVideos(){
+        $sql = "SELECT * FROM videos";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
     public function where($column, $value) {
@@ -28,7 +35,7 @@ class Video extends BaseModel {
 
     public function save() {
         $sql = "UPDATE videos SET title = :title, description = :description, duration = :duration, 
-                upload_date = :upload_date, thumbnail = :thumbnail, user_id = :user_id WHERE id = :id";
+                upload_date = :upload_date, thumbnail = :thumbnail, user_id = :user_id, file_path = :file_path WHERE id = :id";
 
         $pdo_statement = $this->db->prepare($sql);
         $pdo_statement->execute([
@@ -38,7 +45,8 @@ class Video extends BaseModel {
             ':upload_date' => $this->upload_date,
             ':thumbnail' => $this->thumbnail,
             ':user_id' => $this->user_id,
-            ':id' => $this->id
+            ':id' => $this->id,
+            ':file_path' => $this->file_path
         ]);
     }
 

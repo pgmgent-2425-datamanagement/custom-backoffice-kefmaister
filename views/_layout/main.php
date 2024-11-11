@@ -15,8 +15,8 @@
         <nav class="bg-gray-800 p-4">
         <a href="/" class="text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
         <a href="/users" class="text-white px-3 py-2 rounded-md text-sm font-medium">Users</a>
-        <a href="/videos" class="text-white px-3 py-2 rounded-md text-sm font-medium">Videos</a>
-        <a href="#" class="text-white px-3 py-2 rounded-md text-sm font-medium">Item 4</a>
+        <a href="/video" class="text-white px-3 py-2 rounded-md text-sm font-medium">Videos</a>
+        <a href="/files" class="text-white px-3 py-2 rounded-md text-sm font-medium">Files</a>
     </nav>
     </header>
 

@@ -8,15 +8,14 @@ use App\Models\User;
 
 class VideoController extends BaseController {
 
-    public static function index() {
+    public static function index(){
         $videoModel = new Video();
-        $videos = $videoModel->all(); // Fetch all videos
-        var_dump($videos);
-        exit();
+        $videos = $videoModel->getVideos();
 
-        self::loadView('/videos', [
+        self::loadView('/video', [
             'title' => 'Videos',
             'videos' => $videos
+
         ]);
     }
 
@@ -44,11 +43,12 @@ class VideoController extends BaseController {
                 'duration'    => $_POST['duration'],
                 'upload_date' => date('Y-m-d H:i:s'),
                 'thumbnail'   => $thumbnailUuid,
-                'user_id'     => $_POST['user_id']
+                'user_id'     => $_POST['user_id'],
+                'file_path'   => $uuid
             ];
 
             if ($videoModel->create($data)) {
-                header('Location: /videos');
+                header('Location: /video');
                 exit();
             } else {
                 self::loadView('/create_video', [
@@ -100,7 +100,7 @@ class VideoController extends BaseController {
             $video->user_id = $_POST['user_id'];
             $video->save();
 
-            header('Location: /videos');
+            header('Location: /video');
         }
 
         self::loadView('/edit_video', [
@@ -116,7 +116,7 @@ class VideoController extends BaseController {
             $video->delete();
         }
 
-        header('Location: /videos');
+        header('Location: /video');
     }
 
     public static function find($id) {

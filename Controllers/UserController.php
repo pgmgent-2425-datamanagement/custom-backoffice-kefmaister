@@ -106,13 +106,14 @@ class UserController extends BaseController {
             $user->save();
             header('Location: /users');
         }
-    
+    else{
         self::loadView('/edit_user', [
             'title' => 'Edit User',
             'user' => $user,
             'playlists' => $playlists, // Pass playlists if necessary
             'countries' => $countries
         ]);
+    }
     }
     
 
