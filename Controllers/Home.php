@@ -2,12 +2,16 @@
 namespace App\Controllers;
 
 use App\Models\Country;
-use App\Models\Playlist;
+use App\Models\User;
+use App\Models\Video;
 
 
 class HomeController extends BaseController {
 
     public static function index() {
+        $userModel = new User();
+        $videoModel = new Video();
+
         $countryModel = new Country();
 
         $countryUserData = $countryModel->getUserCountsByCountry();
@@ -19,16 +23,22 @@ class HomeController extends BaseController {
             $userCounts[] = $data->count;
         }
 
+        // Fetch video counts per genre
+        $videoCountsData = $videoModel->getVideoCountsByGenre();
+        $genreNames = [];
+        $videoCounts = [];
+        foreach ($videoCountsData as $data) {
+            $genreNames[] = $data->genre_name;
+            $videoCounts[] = $data->video_count;
+        }
 
-        $playlistModel = new Playlist();
-        $playlistCount = count($playlistModel->all());
 
         self::loadView('/home', [
             'title' => 'Home Dashboard',
             'countries' => $countries,
             'userCounts' => $userCounts,
-            'playlistCount' => $playlistCount,
-        ]);
+            'genreNames' => $genreNames,
+            'videoCounts' => $videoCounts,        ]);
     }
 
 }

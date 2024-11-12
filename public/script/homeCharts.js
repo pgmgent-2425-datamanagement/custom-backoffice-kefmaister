@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Retrieve data from window variables
   const countryNames = window.countryNames || [];
   const userCounts = window.userCounts || [];
-  const playlistCount = Math.round(window.playlistCount || 0);
+  const genreNames = window.genreNames || [];
+  const videoCounts = window.videoCounts || [];
 
   // Function to generate distinct colors for the chart
   function generateColors(count) {
@@ -67,36 +68,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Playlist Chart as a Pie or Doughnut
-  if (document.getElementById("playlistChart")) {
-    const playlistCtx = document
-      .getElementById("playlistChart")
+  // Videos per Genre Chart
+  if (genreNames.length > 0 && videoCounts.length > 0) {
+    const videosPerGenreCtx = document
+      .getElementById("videosPerGenreChart")
       .getContext("2d");
-    new Chart(playlistCtx, {
-      type: "doughnut", // You can change to 'pie' if preferred
+    new Chart(videosPerGenreCtx, {
+      type: "bar",
       data: {
-        labels: ["Playlists"],
+        labels: genreNames,
         datasets: [
           {
-            label: "Total Playlists",
-            data: [playlistCount],
-            backgroundColor: ["rgba(153, 102, 255, 0.6)"],
-            borderColor: ["rgba(153, 102, 255, 1)"],
+            label: "Videos per Genre",
+            data: videoCounts,
+            backgroundColor: generateColors(genreNames.length),
+            borderColor: "rgba(255, 255, 255, 1)",
             borderWidth: 1,
           },
         ],
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false, // Allows resizing
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: (context) => `Total Playlists: ${Math.round(context.raw)}`,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Genres",
             },
           },
+          y: {
+            title: {
+              display: true,
+              text: "Number of Videos",
+            },
+            beginAtZero: true,
+            ticks: {
+              // Apply Math.floor to Y-axis labels
+              callback: function (value) {
+                return Math.floor(value);
+              },
+            },
+          },
+        },
+        plugins: {
           legend: {
             display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) =>
+                `${context.label}: ${context.raw} video${
+                  context.raw > 1 ? "s" : ""
+                }`,
+            },
           },
         },
       },

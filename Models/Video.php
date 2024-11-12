@@ -105,4 +105,19 @@ class Video extends BaseModel {
             ':id' => $this->id
         ]);
     }
+
+    public function getVideoCountsByGenre() {
+        $sql = "
+            SELECT g.name AS genre_name, COUNT(v.id) AS video_count
+            FROM videos v
+            JOIN genres g ON v.genre_id = g.id
+            GROUP BY g.name
+            ORDER BY video_count DESC
+            LIMIT 5
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
 }
