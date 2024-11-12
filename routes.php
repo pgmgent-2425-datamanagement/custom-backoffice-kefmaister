@@ -23,6 +23,18 @@ $router->post('/videos/edit/(\d+)', 'VideoController@edit');
 $router->get('/videos/delete/(\d+)', 'VideoController@delete');
 $router->get('/videos/view/(\d+)', 'VideoController@find');
 
+//playlist routes
+$router->get('/playlists', 'PlaylistController@index');
+$router->get('/playlists/create', 'PlaylistController@create');
+$router->post('/playlists/create', 'PlaylistController@create');
+$router->get('/playlists/edit/(\d+)', 'PlaylistController@edit');
+$router->post('/playlists/edit/(\d+)', 'PlaylistController@edit');
+$router->get('/playlists/delete/(\d+)', 'PlaylistController@delete');
+$router->get('/playlist/view/(\d+)', 'PlaylistController@find');
+$router->post('/playlist/add-video', 'PlaylistController@addVideo'); // New route for adding video
+$router->get('/playlist/remove-video/(\d+)/(\d+)', 'PlaylistController@removeVideo'); // New route for removing video
+
+
 
 //comments routes
 $router->post('/comments/create', 'CommentController@create');
