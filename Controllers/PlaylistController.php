@@ -50,30 +50,30 @@ class PlaylistController extends BaseController {
     public static function edit($id) {
         $playlist = Playlist::find($id);
         $users = User::all();
-
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $playlist->name = $_POST['name'];
             $playlist->user_id = $_POST['user_id'];
             $playlist->save();
+    
 
-            header('Location: /playlists');
-            exit;
+            if ($playlist->save()) {
+                // Only redirect if the save is successful
+                header('Location: /user/id/' . $_POST['user_id']);
+                exit;
+            } else {
+                echo "Failed to save the playlist."; // For debugging
+            }
+            
         }
-
+    
         self::loadView('/playlist_edit', [
             'title' => 'Edit Playlist',
             'playlist' => $playlist,
             'users' => $users
         ]);
     }
-
-    public static function delete($id) {
-        $playlist = Playlist::find($id);
-        $playlist->delete();
-
-        header('Location: /playlists');
-        exit;
-    }
+    
 
     public static function find($id) {
         $playlist = Playlist::find($id);
@@ -88,6 +88,23 @@ class PlaylistController extends BaseController {
             'availableVideos' => $allVideos
         ]);
     }
+
+    public static function delete($id) {
+        $playlist = Playlist::find($id);
+        
+        if ($playlist) {
+            $userId = $playlist->user_id; 
+            $playlist->delete();
+    
+            // Redirect to the specific user's page after deletion
+            header('Location: /user/id/' . $userId);
+            exit();
+        } else {
+            echo "Playlist not found.";
+            exit();
+        }
+    }
+    
 
     public static function addVideo() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

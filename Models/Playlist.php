@@ -29,24 +29,27 @@ class Playlist extends BaseModel{
 
     public function save() {
         if (isset($this->id)) {
-            // Update existing record logic
             $sql = "UPDATE playlists SET name = :name, user_id = :user_id WHERE id = :id";
             $pdo_statement = $this->db->prepare($sql);
-            return $pdo_statement->execute([
+            $result = $pdo_statement->execute([
                 ':name' => $this->name,
                 ':user_id' => $this->user_id,
                 ':id' => $this->id
             ]);
+            var_dump($result, $pdo_statement->errorInfo()); // Check execution result and any errors
+            return $result;
         } else {
-            // Insert new record logic
             $sql = "INSERT INTO playlists (name, user_id) VALUES (:name, :user_id)";
             $pdo_statement = $this->db->prepare($sql);
-            return $pdo_statement->execute([
+            $result = $pdo_statement->execute([
                 ':name' => $this->name,
                 ':user_id' => $this->user_id
             ]);
+            var_dump($result, $pdo_statement->errorInfo()); // Check execution result and any errors
+            return $result;
         }
     }
+    
     
 
     public function delete(){

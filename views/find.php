@@ -9,10 +9,9 @@
 
     <!-- Button to Create Playlist -->
     <div class="mb-6">
-    <a href="/playlists/create?user_id=<?= htmlspecialchars($user->id) ?>" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition">
-    Create Playlist
-</a>
-
+        <a href="/playlists/create?user_id=<?= htmlspecialchars($user->id) ?>" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition">
+            Create Playlist
+        </a>
     </div>
 
     <!-- Playlist List -->
@@ -36,9 +35,9 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 <div class="flex space-x-2">
-                                    <a href="/playlist/edit/<?= htmlspecialchars($playlist->id) ?>" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white text-sm font-medium rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75 transition">
+                                    <button type="button" onclick="openEditModal('<?= htmlspecialchars($playlist->id) ?>', '<?= htmlspecialchars($playlist->name) ?>')" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white text-sm font-medium rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75 transition">
                                         Edit
-                                    </a>
+                                    </button>
                                     <a href="/playlist/delete/<?= htmlspecialchars($playlist->id) ?>" class="inline-flex items-center px-3 py-1 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 transition" onclick="return confirm('Are you sure you want to delete <?= htmlspecialchars($playlist->name) ?>?');">
                                         Delete
                                     </a>
@@ -52,4 +51,37 @@
             <p class="text-gray-600 mt-4">No playlists found.</p>
         <?php endif; ?>
     </div>
+
+    <!-- Modal -->
+<div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+        <h2 class="text-xl font-semibold mb-4">Edit Playlist</h2>
+        <form id="editForm" method="POST" action="">
+            <input type="hidden" name="id" id="playlistId">
+            <input type="hidden" name="user_id" value="<?= htmlspecialchars($user->id) ?>"> <!-- Capturing user_id -->
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-medium mb-2">Playlist Name:</label>
+                <input type="text" name="name" id="playlistName" required class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</button>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openEditModal(playlistId, playlistName) {
+        document.getElementById('playlistId').value = playlistId;
+        document.getElementById('playlistName').value = playlistName;
+        document.getElementById('editForm').action = '/playlists/edit/' + playlistId; 
+        document.getElementById('editModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.add('hidden');
+    }
+</script>
+
 </div>
