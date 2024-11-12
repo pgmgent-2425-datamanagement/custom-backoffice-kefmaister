@@ -6,7 +6,7 @@ Ik heb een applicatie gemaakt op basis van youtube met video upload en en commen
 
 de screencast is hier zichtbaar: (https://arteveldehogeschool.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=95bd4bc6-89c9-46a7-8f7a-b22601307027)
 
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/RN63TLFQ)
+[![Review Assignment Due Date](https://arteveldehogeschool.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=95bd4bc6-89c9-46a7-8f7a-b22601307027)
 
 # Base MVC
 
