@@ -27,7 +27,7 @@
                         <tr class="hover:bg-gray-100 transition duration-150">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= htmlspecialchars($user->id) ?></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <img src="/images/<?= htmlspecialchars($user->image) ?>" alt="<?= htmlspecialchars($user->firstname . ' ' . $user->lastname) ?>" class="h-10 w-10 rounded-full">
+                                <img src="/images/<?= htmlspecialchars($user->image) ?>" alt="<?= htmlspecialchars($user->firstname . ' ' . $user->lastname) ?>" class="">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
                                 <a href="/user/id/<?= htmlspecialchars($user->id) ?>" class="hover:underline">
                                     <?= htmlspecialchars($user->firstname . ' ' . $user->lastname) ?>

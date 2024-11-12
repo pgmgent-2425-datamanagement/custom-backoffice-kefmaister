@@ -1,6 +1,45 @@
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-bold mb-6 text-gray-800">List of Videos</h1>
 
+    <form method="GET" action="/video" class="mb-6">
+    <div class="flex flex-wrap gap-4">
+        <!-- Search Input -->
+        <div>
+            <input type="text" name="search" placeholder="Search videos..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" class="p-2 border rounded" minlength="3">
+        </div>
+
+        <!-- Filter by Genre -->
+        <div>
+            <select name="genre_filter" class="p-2 border rounded">
+                <option value="">All genres</option>
+                <?php foreach ($genres as $genre): ?>
+                    <option value="<?= htmlspecialchars($genre->id) ?>" <?= isset($_GET['genre_filter']) && $_GET['genre_filter'] == $genre->id ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($genre->name) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- Order By -->
+        <div>
+            <select name="order_by" class="p-2 border rounded">
+                <option value="">Default order</option>
+                <option value="title_asc" <?= isset($_GET['order_by']) && $_GET['order_by'] === 'title_asc' ? 'selected' : '' ?>>Title (A-Z)</option>
+                <option value="title_desc" <?= isset($_GET['order_by']) && $_GET['order_by'] === 'title_desc' ? 'selected' : '' ?>>Title (Z-A)</option>
+                <option value="upload_date_asc" <?= isset($_GET['order_by']) && $_GET['order_by'] === 'upload_date_asc' ? 'selected' : '' ?>>Upload Date (Oldest)</option>
+                <option value="upload_date_desc" <?= isset($_GET['order_by']) && $_GET['order_by'] === 'upload_date_desc' ? 'selected' : '' ?>>Upload Date (Newest)</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit" class="p-2 bg-blue-500 text-white rounded">Apply</button>
+        </div>
+    </div>
+</form>
+
+
+
     <!-- Create Video Button -->
     <div class="mb-6">
         <a href="/videos/create" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition">

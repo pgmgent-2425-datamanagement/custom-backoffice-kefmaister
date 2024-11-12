@@ -49,6 +49,23 @@
         </select>
     </div>
 
+    <!-- Genre Selection -->
+    <div class="mb-4">
+        <label for="genre_id" class="block text-gray-700 font-semibold mb-2">Genre:</label>
+        <select name="genre_id" id="genre_id" required 
+                class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <?php if (!empty($genres)): ?>
+                <?php foreach ($genres as $genre): ?>
+                    <option value="<?= htmlspecialchars($genre->id) ?>" <?= $video->genre_id == $genre->id ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($genre->name) ?>
+                    </option>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <option value="">No genres available</option>
+            <?php endif; ?>
+        </select>
+    </div>
+
     <div class="mt-6">
         <input type="submit" value="Save" 
                class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition duration-200">

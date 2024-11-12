@@ -19,12 +19,48 @@ class Video extends BaseModel {
         return parent::find($id);
     }
 
-    public function getVideos(){
-        $sql = "SELECT * FROM videos";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    public function getVideos($search = null, $genreFilter = null, $orderBy = null)
+{
+    $sql = "SELECT v.*, g.name AS genre_name 
+            FROM videos v
+            LEFT JOIN genres g ON v.genre_id = g.id
+            WHERE 1=1";
+
+    // Add search condition
+    if ($search) {
+        $sql .= " AND (v.title LIKE :search OR v.description LIKE :search)";
     }
+
+    // Add genre filter
+    if ($genreFilter) {
+        $sql .= " AND v.genre_id = :genre_filter";
+    }
+
+    // Add order-by condition
+    if ($orderBy === 'title_asc') {
+        $sql .= " ORDER BY v.title ASC";
+    } elseif ($orderBy === 'title_desc') {
+        $sql .= " ORDER BY v.title DESC";
+    } elseif ($orderBy === 'upload_date_asc') {
+        $sql .= " ORDER BY v.upload_date ASC";
+    } elseif ($orderBy === 'upload_date_desc') {
+        $sql .= " ORDER BY v.upload_date DESC";
+    }
+
+    $stmt = $this->db->prepare($sql);
+
+    // Bind parameters
+    if ($search) {
+        $stmt->bindValue(':search', '%' . $search . '%');
+    }
+    if ($genreFilter) {
+        $stmt->bindValue(':genre_filter', $genreFilter, \PDO::PARAM_INT);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_OBJ);
+}
+
 
     public function getVideoWithGenre($videoId)
 {

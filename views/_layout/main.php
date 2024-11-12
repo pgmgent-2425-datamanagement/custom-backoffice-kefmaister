@@ -10,9 +10,9 @@
 </head>
 <body class="vw-100 w-screen">
     <header>
-        <div class="brand">BrandName</div>
-
+        
         <nav class="bg-gray-800 p-4">
+            <a href="/" class="brand text-white font-bold text-xl">NotYourTube</a>
         <a href="/" class="text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
         <a href="/users" class="text-white px-3 py-2 rounded-md text-sm font-medium">Users</a>
         <a href="/video" class="text-white px-3 py-2 rounded-md text-sm font-medium">Videos</a>

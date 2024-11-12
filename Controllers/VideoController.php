@@ -8,18 +8,34 @@ use App\Models\User;
 use App\Models\Genres;
 use App\Models\Comment;
 
+
 class VideoController extends BaseController {
 
-    public static function index(){
-        $videoModel = new Video();
-        $videos = $videoModel->getVideos();
+    public static function index()
+{
+    $videoModel = new Video();
+    $genreModel = new Genres();
 
-        self::loadView('/video', [
-            'title' => 'Videos',
-            'videos' => $videos
+    // Retrieve genres for the filter dropdown
+    $genres = $genreModel->getGenres(); // Fetch all genres
 
-        ]);
-    }
+    // Capture search, filter, and order parameters
+    $search = $_GET['search'] ?? null;
+    $genreFilter = $_GET['genre_filter'] ?? null;
+    $orderBy = $_GET['order_by'] ?? null;
+
+    // Retrieve filtered and ordered videos
+    $videos = $videoModel->getVideos($search, $genreFilter, $orderBy);
+
+    self::loadView('/video', [
+        'title' => 'List of Videos',
+        'videos' => $videos,
+        'genres' => $genres // Pass genres to the view
+    ]);
+}
+
+
+
 
     public static function create() {
         $userModel = new User();
@@ -81,6 +97,9 @@ class VideoController extends BaseController {
         $userModel = new User();
         $users = $userModel->all(); // Fetch all users
 
+        $genreModel = new Genres();
+        $genres = $genreModel->getGenres(); // Fetch all genres for dropdown if needed
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_FILES['video']['name'];
             if ($name) {
@@ -104,7 +123,10 @@ class VideoController extends BaseController {
             $video->description = $_POST['description'];
             $video->duration = $_POST['duration'];
             $video->user_id = $_POST['user_id'];
+            $video->genre_id = $_POST['genre_id'];
             $video->save();
+
+
 
             header('Location: /video');
         }
@@ -112,7 +134,8 @@ class VideoController extends BaseController {
         self::loadView('/edit_video', [
             'title' => 'Edit Video',
             'video' => $video,
-            'users' => $users
+            'users' => $users,
+            'genres' => $genres
         ]);
     }
 
