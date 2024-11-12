@@ -6,6 +6,7 @@ use App\Models\Video;
 use App\Models\Playlist;
 use App\Models\User;
 use App\Models\Genres;
+use App\Models\Comment;
 
 class VideoController extends BaseController {
 
@@ -124,20 +125,34 @@ class VideoController extends BaseController {
         header('Location: /video');
     }
 
-    public static function find($id) {
-        $video = Video::find($id);
+    public static function find($id)
+{
+    $videoModel = new Video();
+    $video = $videoModel->getVideoWithGenre($id);
 
-        if (!$video) {
-            self::loadView('/error/404', [
-                'title' => 'Video Not Found',
-                'message' => 'The video you are looking for does not exist.'
-            ]);
-            return;
-        }
-
-        self::loadView('/find_video', [
-            'title' => 'View Video',
-            'video' => $video
+    if (!$video) {
+        self::loadView('/error/404', [
+            'title' => 'Video Not Found',
+            'message' => 'The video you are looking for does not exist.'
         ]);
+        return;
     }
+
+    // Fetch comments related to this video
+    $commentModel = new Comment();
+    $comments = $commentModel->getCommentsByVideo($id);
+
+    // Fetch all users for the select input
+    $userModel = new User();
+    $users = $userModel->all();
+
+
+    self::loadView('/find_video', [
+        'title' => 'View Video',
+        'video' => $video,
+        'comments' => $comments,
+        'users' => $users
+    ]);
+}
+
 }

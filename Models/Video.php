@@ -26,6 +26,17 @@ class Video extends BaseModel {
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
+    public function getVideoWithGenre($videoId)
+{
+    $sql = "SELECT v.*, g.name AS genre_name 
+            FROM videos v
+            LEFT JOIN genres g ON v.genre_id = g.id
+            WHERE v.id = :video_id";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([':video_id' => $videoId]);
+    return $stmt->fetch(\PDO::FETCH_OBJ);
+}
+
     public function where($column, $value) {
         $sql = "SELECT * FROM {$this->table} WHERE {$column} = :value";
         $stmt = $this->db->prepare($sql);

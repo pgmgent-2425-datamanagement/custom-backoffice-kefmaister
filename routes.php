@@ -23,6 +23,10 @@ $router->post('/videos/edit/(\d+)', 'VideoController@edit');
 $router->get('/videos/delete/(\d+)', 'VideoController@delete');
 $router->get('/videos/view/(\d+)', 'VideoController@find');
 
+
+//comments routes
+$router->post('/comments/create', 'CommentController@create');
+
 // file manager
 $router->get('/files', 'FileManagerController@index');
 

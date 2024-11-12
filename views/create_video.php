@@ -47,7 +47,7 @@
     <!-- Video Duration -->
     <div class="mb-4">
         <label for="duration" class="block text-gray-700 font-semibold mb-2">Duration (in seconds):</label>
-        <input type="number" id="duration" name="duration" min="0" required 
+        <input type="time" id="duration" name="duration" min="0" required 
                class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
     </div>
 
